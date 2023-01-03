@@ -5,11 +5,7 @@ from tensorflow.keras.models import Sequential
 #1.데이터
 
 x=np.array([range(10)])  #input 1개
-"""
-print(range(10))
-range 10 = 0부터 10전까지
-range(21,31) = 21부터 31전까지 (21~30)
- """
+
 
 y=np.array([[1,2,3,4,5,6,7,8,9,10], 
            [1,1,1,1,2,1.3,1.4,1.5,1.6,1.4],
@@ -17,13 +13,16 @@ y=np.array([[1,2,3,4,5,6,7,8,9,10],
 
 
 
-print(x.shape) #
-print(y.shape) #
+print(x.shape) #(1,10)
+print(y.shape) #(3,10)
 x=x.T
 y=y.T
-print(x.shape) #
-print(y.shape) #
-
+print(x.shape) #(10,1)
+print(y.shape) #(10,3)
+"""
+input 1개 / output 3개
+행 무시, 열 우선
+"""
 
 model=Sequential()
 model.add(Dense(5,input_dim=1)) #input 1개
@@ -33,8 +32,16 @@ model.add(Dense(20))
 model.add(Dense(15))
 model.add(Dense(3)) # output 3개
 
-model.compile(loss='mae',optimizer='adam')
-model.fit(x,y,epochs=200,batch_size=2)
+model.compile(loss='mse',optimizer='adam')
+model.fit(x,y,epochs=70,batch_size=2)
+
+""" 
+metrics=['accuracy']
+validation data=(x,y)
+데이터 분리 -> 훈련(train set) & 평가(test set)
+
+
+"""
 
 
 loss=model.evaluate(x,y)
@@ -45,10 +52,9 @@ print('predict : ',result)
 
 
 """
-결과 : predict :  [[5.94541   1.5666394]]
-
-epochs 200 : predict :  [[10.195384   1.6747473]]
-
+결과 :
+predict :  [[9.850217   1.5213985  0.03505665]]
+predict :  [[10.009439    1.6379923  -0.01246876]]
 """
 
 
