@@ -29,38 +29,40 @@ print(y.shape)
 x_train,x_test,y_train,y_test=train_test_split(
     x,y,
     train_size=0.7,
-    random_state=5
+    random_state=1
 )
 
 #2. model
 
 
 model=Sequential()
-model.add(Dense(32,input_dim=10, activation='relu'))
-model.add(Dense(64))
-model.add(Dropout(rate=0.5))
-model.add(Dense(128))
-model.add(Dropout(rate=0.5))
-model.add(Dense(256))
-model.add(Dropout(rate=0.5))
-model.add(Dense(512))
-model.add(Dropout(rate=0.5))
-model.add(Dense(256))
-model.add(Dense(128))
+model.add(Dense(10,input_dim=10, activation='relu'))
+# model.add(Dense(10))
+# model.add(Dropout(rate=0.5))
+# model.add(Dense(30))
+# model.add(Dropout(rate=0.5))
+# model.add(Dropout(rate=0.5))
+# model.add(Dense(512))
+# model.add(Dropout(rate=0.5))
+# model.add(Dense(40))
+# model.add(Dropout(rate=0.5))
+# model.add(Dense(50))
+# model.add(Dense(50))
+# model.add(Dense(50))
 model.add(Dense(1))
 
 #3. compile, training
 
 model.compile(
     loss='mae',
-    optimizer='adagrad',
-    metrics=['accuracy']
+    optimizer='nadam',
+    metrics=['mae']
     )
 
 model.fit(
     x_train,y_train,
-    batch_size=4,
-    epochs=500
+    batch_size=1,
+    epochs=50
 )
 
 
