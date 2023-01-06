@@ -30,16 +30,12 @@ x_train,x_test,y_train,y_test=train_test_split(
 #2. model
 
 model=Sequential()
-model.add(Dense(5,input_dim=8, activation='relu'))
-model.add(Dense(100))
-model.add(Dropout(rate=0.5))
-model.add(Dense(200))
-model.add(Dropout(rate=0.5))
-model.add(Dense(300))
-model.add(Dropout(rate=0.5))
-model.add(Dense(200))
-model.add(Dropout(rate=0.5))
-model.add(Dense(100))
+model.add(Dense(32,input_dim=8))
+# model.add(Dropout(rate=0.5))
+# model.add(Dropout(rate=0.5))
+model.add(Dense(512, activation='relu'))
+# model.add(Dropout(rate=0.5))
+# model.add(Dropout(rate=0.5))
 model.add(Dense(1))
 
 
@@ -54,7 +50,7 @@ model.compile(
 
 model.fit(
     x_train,y_train,
-    batch_size=16,
+    batch_size=32,
     epochs=300
 )
 
@@ -85,4 +81,9 @@ print("R2 : ",R2)
 loss :  [0.5141951441764832, 0.002906507346779108]
 RMSE :  0.7408207844308529
 R2 :  0.5824876592696644 
+
+loss :  [0.46025535464286804, 0.0027450346387922764]
+RMSE :  0.6503600504422481
+R2 :  0.6782261757061483
+
 """

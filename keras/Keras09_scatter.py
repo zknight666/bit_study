@@ -27,24 +27,21 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 
 model=Sequential()
-model.add(Dense(10,input_dim=1))
-model.add(Dense(10))
-model.add(Dense(20))
-model.add(Dense(30))
-model.add(Dense(20))
-model.add(Dense(10))
+model.add(Dense(30,input_dim=1))
+model.add(Dense(512))
 model.add(Dense(1))
 
 
 #3.compile, training
 
 model.compile(loss='mse',optimizer='adam')
-model.fit(x,y,batch_size=2,epochs=70)
+model.fit(x,y,batch_size=2,epochs=30)
 
 
 #4. 평가, 예측
 
 loss=model.evaluate(x_test,y_test)
+
 y_predict=model.predict(x)
 
 import matplotlib.pyplot as plt
