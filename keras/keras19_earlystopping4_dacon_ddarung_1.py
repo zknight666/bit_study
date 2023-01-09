@@ -5,8 +5,8 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-
+from tensorflow.keras.callbacks import EarlyStopping #, ModelCheckpoint
+import matplotlib.pylab as plt
 
 # 1. data (data 불러오기, column 확인, 결측치 확인, 데이터 전처리)
 """
@@ -47,7 +47,7 @@ print(y)
 x_train, x_test, y_train, y_test = train_test_split(
     x, y,
     train_size=0.8,
-    random_state=4
+    random_state=9
 )
 
 print(x_train.shape, x_test.shape)  # (1167, 9) (292, 9)
@@ -56,37 +56,40 @@ print(y_train.shape, y_test.shape)  # (1167,) (292,)
 
 # 2. model
 model = Sequential()
-model.add(Dense(50, input_dim=9))
-model.add(Dense(500, activation='relu'))
-model.add(Dense(50, activation='relu'))
+model.add(Dense(32, input_dim=9))
+model.add(Dense(512, activation='relu'))
+# model.add(Dense(50, activation='relu'))
 model.add(Dense(1))
 
 # 3. compile, training
 
 model.compile(
     optimizer='nadam',
-    loss='mae',
-    metrics=['mse']
+    loss='mse',
+    metrics=['mae']
 )
 
 start = time.time()
 
 early_stopping = EarlyStopping(
     monitor='val_loss',
-    patience=10,
+    patience=100,
     verbose=2,
     restore_best_weights=True
 )
 
-model.fit(
+hist=model.fit(
     x_train, y_train,
-    epochs=1000,
+    epochs=75752576,
     batch_size=1,
     validation_split=0.2,
     callbacks=[early_stopping]
 )
 
 end = time.time()
+
+
+
 
 
 # 4. 평가, 예측 (평가 산식 : RMSE)
@@ -99,20 +102,64 @@ def RMSE(y_test, y_predict):
     return(np.sqrt(mean_squared_error(y_test, y_predict)))
 
 
+
+
+
+
+
+#6. 제출
+y_submit=model.predict(test_csv)
+print(y_submit)
+print(y_submit.shape)
+
+submission_csv['count']=y_submit
+print('제출용 csv : ',submission_csv)
+submission_csv.to_csv(path+'submission_01.09_04.csv')
+
+
+
+
+
+#7. 결과 확인 (RMSE 48.6 이하로 나올 것)
+
 print('loss:', loss)
 print('RMSE:', RMSE(y_test, y_predict))
 print('r2:', r2_score(y_test, y_predict))
 print('걸린시간 : ', end-start)
+print('hist : ',hist.history['loss'])
 
 
-y_submit=model.predict(test_csv)
 
-# print(y_submit)
-# print(y_submit.shape) #(715,1)
 
-submission_csv['count'] = y_submit
-print(submission_csv)
-submission_csv.to_csv(path + 'submission_0109_02.csv')
+#5. 시각화
+
+plt.figure(
+    figsize=(9,6)
+)
+
+plt.plot(
+    hist.history['loss'],
+    c='red',
+    marker='.',
+    label='loss'
+)
+
+
+plt.plot(
+    hist.history['val_loss'],
+    c='blue',
+    marker='.',
+    label='val_loss'
+)
+
+plt.grid()
+
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.title('ddarung')
+plt.legend(loc='upper right')
+plt.show()
+
 
 """
 loss: [33.211708068847656, 2368.175537109375]
@@ -121,4 +168,9 @@ r2: 0.592475322958559
 loss: [35.60508346557617, 2733.531494140625]
 RMSE: 52.28318467751592
 r2: 0.6370946700750323
+
+loss: [29.216039657592773, 1827.946533203125]
+RMSE: 42.754489633842525
+r2: 0.7339550512057256
+
 """

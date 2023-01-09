@@ -45,8 +45,8 @@ loss=model.evaluate(x_test,y_test)
 y_predict=model.predict(x)
 
 import matplotlib.pyplot as plt
-plt.scatter(x,y)
-plt.plot(x,y_predict, color='red')
+plt.scatter(x,y) # 점 찍는거
+plt.plot(x,y_predict, color='red') # 선 잇는거
 plt.show()
 
 

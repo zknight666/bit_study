@@ -6,7 +6,7 @@ from tensorflow.keras.layers import Dense
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-
+import matplotlib.pylab as plt
 
 # 1. data (data 불러오기, column 확인, 결측치 확인, 데이터 전처리)
 """
@@ -78,7 +78,7 @@ early_stopping = EarlyStopping(
     restore_best_weights=True
 )
 
-model.fit(
+hist=model.fit(
     x_train, y_train,
     epochs=1000,
     batch_size=1,
@@ -103,16 +103,52 @@ print('loss:', loss)
 print('RMSE:', RMSE(y_test, y_predict))
 print('r2:', r2_score(y_test, y_predict))
 print('걸린시간 : ', end-start)
+print('hist : ',hist.history['loss'])
 
 
-y_submit=model.predict(test_csv)
 
-# print(y_submit)
-# print(y_submit.shape) #(715,1)
 
-submission_csv['count'] = y_submit
-print(submission_csv)
-submission_csv.to_csv(path + 'submission_0109_02.csv')
+#5. 시각화
+
+plt.figure(
+    figsize=(9,6)
+)
+
+plt.plot(
+    hist.history['loss'],
+    c='red',
+    marker='.',
+    label='loss'
+)
+
+
+plt.plot(
+    hist.history['val_loss'],
+    c='blue',
+    marker='.',
+    label='val_loss'
+)
+
+plt.grid()
+
+plt.xlabel('epochs')
+plt.ylabel('loss')
+plt.title('ddarung')
+plt.legend(loc='upper right')
+plt.show()
+
+
+
+#6. 제출
+
+# y_submit=model.predict(test_csv)
+
+# # print(y_submit)
+# # print(y_submit.shape) #(715,1)
+
+# submission_csv['count'] = y_submit
+# print(submission_csv)
+# submission_csv.to_csv(path + 'submission_0109_02.csv')
 
 """
 loss: [33.211708068847656, 2368.175537109375]
@@ -122,3 +158,18 @@ loss: [35.60508346557617, 2733.531494140625]
 RMSE: 52.28318467751592
 r2: 0.6370946700750323
 """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
