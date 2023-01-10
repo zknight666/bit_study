@@ -77,7 +77,7 @@ model.add(Dense(1, activation='relu'))
 # 3. compile, training
 model.compile(
     optimizer='nadam',
-    loss=['mse','mae'],
+    loss=['mae'],
     metrics=['mse']
 )
 

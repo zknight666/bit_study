@@ -82,6 +82,7 @@ hist=model.fit(
     x_train, y_train,
     epochs=75752576,
     batch_size=1,
+    verbose=2,
     validation_split=0.2,
     callbacks=[early_stopping]
 )

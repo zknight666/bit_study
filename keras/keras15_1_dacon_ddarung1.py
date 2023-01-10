@@ -80,7 +80,7 @@ max      23.000000             30.000000                1.000000            8.00
 
 
 
-x=train_csv.drop('count',axis=1) # count 컬럼 제거
+x=train_csv.drop('count',axis=1) # count 컬럼 제거, 결측 data가 있는 열 제거
 print(x) # [1459 rows x 9 columns]
 
 y=train_csv['count']

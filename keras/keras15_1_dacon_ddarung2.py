@@ -112,7 +112,7 @@ print(train_csv.shape) # (1328,10), 결측치 128개 삭제 완료
 
 
 
-x=train_csv.drop('count',axis=1) # count 컬럼 제거
+x=train_csv.drop('count',axis=1) # count 컬럼 제거, 결측 data가 있는 열 제거
 print(x) # [1459 rows x 9 columns]
 
 y=train_csv['count']

@@ -5,7 +5,6 @@ from sklearn.datasets import load_breast_cancer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score, mean_squared_error
 from tensorflow.keras.callbacks import EarlyStopping
-from sklearn.metrics import r2_score, mean_squared_error
 import matplotlib.pyplot as plt
 from sklearn.metrics import classification_report
 #1. data
@@ -85,13 +84,17 @@ y_predict=model.predict(x_test)
 
 # sigmoid는 0,1로 출력되는게 아니고 0과 1사이의 값인 실수로 표현되기 때문에 적용 안됨 -> y_predict를 정수형으로 바꾼다.
 # 과제 : accuracy를 출력시켜라 (y_predict를 정수형으로 바꿔라)
-# preds_1d = y_predict.flatten() # 차원 펴주기
-# pred_class = np.where(preds_1d > 0.5, 1 , 0) #0.5보다크면 2, 작으면 1
-# print(classification_report(y_test,pred_class))
-# acc2= accuracy_score(y_test,pred_class)
+
+
+
+
 
 print('loss : ',loss)
 print('acc : ',acc)
+# preds_1d = y_predict.flatten() # 차원 펴주기
+# pred_class = np.where(preds_1d > 0.5, 1 , 0) #0.5보다크면 2, 작으면 1
+# print(classification_report(y_test,pred_class)) # 확인용인듯
+# acc2= accuracy_score(y_test,pred_class)
 # print('accuracy_score : ',acc2)
 #뭐가 다른거야 .. 굳이 accuracy_score를 쓸 필요가?
 
