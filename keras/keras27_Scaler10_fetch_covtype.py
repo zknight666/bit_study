@@ -8,6 +8,7 @@ from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.utils import to_categorical
 import pandas as pd
 from tensorflow.keras.callbacks import EarlyStopping
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
 
 
@@ -95,31 +96,28 @@ y=y.toarray()
 """
 
 
-
-
-
-ohe = OneHotEncoder() #onehotencorder 사용시 무조건 toarray 사용
-print(y.shape) # (581012,) 벡터 1개 = 1차원 -> 2차원 변경
-y=y.reshape(581012,1)
-print(y.shape) # (581012, 1)
-y=ohe.fit_transform(y) # 오류 나옴 1차원으로 나옴 -> 2차원으로 제공해야함 # fit=실행시키다
-# ex) (3,) -> [1,2,3] ->reshape -> [[1],[2],[3]]
-print(y[:15])
-print(y.shape)
-# 의미 : 0번째 행에 4번째가 1, 1번째 행에 4번째가 1, 2번째 행에 1번째가 1.....
-print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
-y=y.toarray()
-print(y[:15])
-print(y.shape)
-print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
+# ohe = OneHotEncoder() #onehotencorder 사용시 무조건 toarray 사용
+# print(y.shape) # (581012,) 벡터 1개 = 1차원 -> 2차원 변경
+# y=y.reshape(581012,1)
+# print(y.shape) # (581012, 1)
+# y=ohe.fit_transform(y) # 오류 나옴 1차원으로 나옴 -> 2차원으로 제공해야함 # fit=실행시키다
+# # ex) (3,) -> [1,2,3] ->reshape -> [[1],[2],[3]]
+# print(y[:15])
+# print(y.shape)
+# # 의미 : 0번째 행에 4번째가 1, 1번째 행에 4번째가 1, 2번째 행에 1번째가 1.....
+# print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
+# y=y.toarray()
+# print(y[:15])
+# print(y.shape)
+# print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
 
 
 
 # y=ohe.transform(y.reshape(-1,1)).toarray()
 
-# y=pd.get_dummies(y)
-# print(type(y)) # <class 'pandas.core.frame.DataFrame'> pandas의 dataframe 형태 (index, header형태로 보여줌)
-# y = y.values  # numpy 자료형이 바로 pandas를 못받아들임 -> pandas를 numpy로 변경시 해결됨
+y=pd.get_dummies(y)
+print(type(y)) # <class 'pandas.core.frame.DataFrame'> pandas의 dataframe 형태 (index, header형태로 보여줌)
+y = y.values  # numpy 자료형이 바로 pandas를 못받아들임 -> pandas를 numpy로 변경시 해결됨
 # y=y.to_numpy()
 
 
@@ -128,10 +126,10 @@ print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
 
 
 # print(x)
-# print(y[:10])
-# print(type(y)) # <class 'numpy.ndarray'>
-# print(x.shape) 
-# print(y.shape) # (581012, 7)
+print(y[:10])
+print(type(y)) # <class 'numpy.ndarray'>
+print(x.shape) 
+print(y.shape) # (581012, 7)
 
 
 
@@ -145,7 +143,14 @@ x_train,x_test,y_train,y_test=train_test_split(
     shuffle=True,
     stratify=y
 )
-
+ 
+ 
+# scaler_standard=StandardScaler()
+# x_train=scaler_standard.fit_transform(x_train)
+# x_test=scaler_standard.transform(x_test)
+scaler_minmax=MinMaxScaler()
+x_train=scaler_minmax.fit_transform(x_train)
+x_test=scaler_minmax.transform(x_test)
 
 
 
@@ -205,8 +210,16 @@ print('accuracy : ',accuracy)
 model.summary()
 
 """
-결과 : accuracy :  0.8860958814620972
+결과
 
+안사용
+: accuracy :  0.8860958814620972
+
+standard scaler 사용
+loss :  0.17394116520881653
+accuracy :  0.9326953887939453
+
+minmax scaler 사용
+loss :  0.20554733276367188
+accuracy :  0.9198471903800964
 """
-
-

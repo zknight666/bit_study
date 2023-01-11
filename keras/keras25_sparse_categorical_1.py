@@ -1,3 +1,5 @@
+#
+
 from sklearn.datasets import fetch_covtype, get_data_home
 import numpy as np
 from sklearn.metrics import r2_score, accuracy_score, mean_squared_error
@@ -24,7 +26,11 @@ print(np.unique(y,return_counts=True)) # (array([1, 2, 3, 4, 5, 6, 7]), array([2
 # 데이터 한개 2700개이므로 stratify 사용
 # 함정 있음. 인코딩 다른거 해야할듯? 
 print(datasets.feature_names)
-print(x,y,y.shape)
+print(y)
+print(y.shape)
+print(type(y))
+print(np.unique(y, return_counts=True))
+
 """
 encoding을 하는 3가지 방법
 1)
@@ -94,28 +100,20 @@ y=y.toarray()
 
 """
 
-
-
-
-
-ohe = OneHotEncoder() #onehotencorder 사용시 무조건 toarray 사용
-print(y.shape) # (581012,) 벡터 1개 = 1차원 -> 2차원 변경
-y=y.reshape(581012,1)
-print(y.shape) # (581012, 1)
-y=ohe.fit_transform(y) # 오류 나옴 1차원으로 나옴 -> 2차원으로 제공해야함 # fit=실행시키다
-# ex) (3,) -> [1,2,3] ->reshape -> [[1],[2],[3]]
-print(y[:15])
-print(y.shape)
-# 의미 : 0번째 행에 4번째가 1, 1번째 행에 4번째가 1, 2번째 행에 1번째가 1.....
-print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
-y=y.toarray()
-print(y[:15])
-print(y.shape)
-print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
-
-
-
-# y=ohe.transform(y.reshape(-1,1)).toarray()
+# ohe = OneHotEncoder() #onehotencorder 사용시 무조건 toarray 사용
+# print(y.shape) # (581012,) 벡터 1개 = 1차원 -> 2차원 변경
+# y=y.reshape(581012,1)
+# print(y.shape) # (581012, 1)
+# y=ohe.fit_transform(y) # 오류 나옴 1차원으로 나옴 -> 2차원으로 제공해야함 # fit=실행시키다
+# # ex) (3,) -> [1,2,3] ->reshape -> [[1],[2],[3]]
+# print(y[:15])
+# print(y.shape)
+# # 의미 : 0번째 행에 4번째가 1, 1번째 행에 4번째가 1, 2번째 행에 1번째가 1.....
+# print(type(y)) # <class 'scipy.sparse._csr.csr_matrix'>
+# y=y.toarray()
+# print(y[:15])
+# print(y.shape)
+# print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
 
 # y=pd.get_dummies(y)
 # print(type(y)) # <class 'pandas.core.frame.DataFrame'> pandas의 dataframe 형태 (index, header형태로 보여줌)
@@ -123,19 +121,11 @@ print(type(y)) # <class 'numpy.ndarray'> numpy 변환 확인 완료
 # y=y.to_numpy()
 
 
-
-
-
-
 # print(x)
 # print(y[:10])
 # print(type(y)) # <class 'numpy.ndarray'>
 # print(x.shape) 
 # print(y.shape) # (581012, 7)
-
-
-
-
 
 
 x_train,x_test,y_train,y_test=train_test_split(
@@ -203,10 +193,3 @@ print('y_predict : ',y_predict[:20])
 print('accuracy : ',accuracy)
 # print('hist : ',hist.history['loss'])
 model.summary()
-
-"""
-결과 : accuracy :  0.8860958814620972
-
-"""
-
-
