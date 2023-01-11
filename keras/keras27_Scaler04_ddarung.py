@@ -48,29 +48,29 @@ print(y)
 x_train, x_test, y_train, y_test = train_test_split(
     x, y,
     train_size=0.8,
-    random_state=1,
+    random_state=15,
     shuffle=True
 )
 
 # print(x_train.shape, x_test.shape)  # (1167, 9) (292, 9)
 # print(y_train.shape, y_test.shape)  # (1167,) (292,)
 
-# scaler_standard=StandardScaler()
-# x_train=scaler_standard.fit_transform(x_train)
-# x_test=scaler_standard.transform(x_test)
-scaler_minmax=MinMaxScaler()
-x_train=scaler_minmax.fit_transform(x_train)
-x_test=scaler_minmax.transform(x_test)
-test_csv=scaler_minmax.transform(test_csv) #x data를 scaling했으므로 submission x data 또한 scaling 필요 / 모든 x data scaling 필요
+scaler_standard=StandardScaler()
+x_train=scaler_standard.fit_transform(x_train)
+x_test=scaler_standard.transform(x_test)
+# scaler_minmax=MinMaxScaler()
+# x_train=scaler_minmax.fit_transform(x_train)
+# x_test=scaler_minmax.transform(x_test)
+
+test_csv=scaler_standard.transform(test_csv) #x data를 scaling했으므로 submission x data 또한 scaling 필요 / 모든 x data scaling 필요
  
 
 
 
 # 2. model
 model = Sequential()
-model.add(Dense(32, input_dim=9))
+model.add(Dense(50, input_dim=9, activation='relu'))
 model.add(Dense(512, activation='relu'))
-model.add(Dense(512, activation='selu'))
 # model.add(Dense(50, activation='relu'))
 model.add(Dense(1, activation='relu'))
 
@@ -78,15 +78,15 @@ model.add(Dense(1, activation='relu'))
 
 model.compile(
     optimizer='nadam',
-    loss='mae',
-    metrics=['mse']
+    loss='mse',
+    metrics=['mae']
 )
 
 start = time.time()
 
 early_stopping = EarlyStopping(
     monitor='val_loss',
-    patience=50,
+    patience=33,
     verbose=2,
     restore_best_weights=True
 )
@@ -94,7 +94,7 @@ early_stopping = EarlyStopping(
 hist=model.fit(
     x_train, y_train,
     epochs=75752576,
-    batch_size=4,
+    batch_size=1,
     verbose=2,
     validation_split=0.2,
     callbacks=[early_stopping]
@@ -128,7 +128,7 @@ print(y_submit.shape)
 
 submission_csv['count']=y_submit
 print('제출용 csv : ',submission_csv)
-submission_csv.to_csv(path+'submission_01.11_02.csv')
+submission_csv.to_csv(path+'submission_01.11_04.csv')
 
 
 
@@ -200,6 +200,9 @@ standard scaler 사용했을 때
 loss: [1753.14892578125, 29.435871124267578]
 RMSE: 41.87062112160897
 r2: 0.7274279781341645
+loss: [1624.9041748046875, 29.060964584350586]
+RMSE: 40.310099008275664
+r2: 0.7770331998125475
 
 
 """
