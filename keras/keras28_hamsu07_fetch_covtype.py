@@ -143,8 +143,8 @@ x_train,x_test,y_train,y_test=train_test_split(
     shuffle=True,
     stratify=y
 )
- 
- 
+
+
 # scaler_standard=StandardScaler()
 # x_train=scaler_standard.fit_transform(x_train)
 # x_test=scaler_standard.transform(x_test)
@@ -164,7 +164,7 @@ x_test=scaler_minmax.transform(x_test)
 
 
 #2.2 model (함수형)
-input1=Input(shape=(64,))
+input1=Input(shape=(54,))
 dense1=Dense(32,activation='relu')(input1)
 dense2=Dense(400,activation='relu')(dense1)
 dense3=Dense(10,activation='relu')(dense2)

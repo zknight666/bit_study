@@ -88,23 +88,6 @@ print(np.max(x)) # 최대값 1로 min,max 제대로 적용 확인 완료
 
 
 
-
-# #2. model (순차형)
-# model=Sequential()
-# # model.add(Dense(1,input_dim=13)) # (?,13)
-# model.add(Dense(50,input_shape=(13,))) # (13,?)
-# model.add(Dense(40,activation='selu'))
-# model.add(Dense(30,activation='selu'))
-# model.add(Dense(20,activation='selu'))
-# model.add(Dense(10,activation='selu'))
-# model.add(Dense(1))
-
-# model.summary()
-
-
-
-
-
 #2-2 model (함수형) # Model import 필요, input layer 명시해주어야함 -> Input import 필요
 input1=Input(shape=(13,))
 dense1=Dense(50,activation='relu')(input1)
@@ -117,7 +100,9 @@ model=Model(inputs=input1,outputs=output1)
 
 model.summary() # 함수형 순차형 동일한 모델 params 같음
 
-
+model.save(
+    'c:/study/_save/keras29_1_save_model.h5')
+# warning이 뜨지만 실행은 됨
 
 
 
@@ -199,6 +184,10 @@ print(hist.history['loss']) # loss, val_loss 변화값 리스트 형태로 저�
 plt.figure(
     figsize=(9,6)
     )
+
+
+
+
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
 plt.plot(hist.history['val_loss'], c='blue',marker='.', label='val_loss') # epoch 순으로 가서 x값 생략해도 됨
 plt.grid()

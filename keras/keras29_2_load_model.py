@@ -5,7 +5,7 @@
 # 단점 : 이상치(outlier)에 너무 많은 영향을 받는다
 
 from sklearn.datasets import load_boston
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -88,36 +88,21 @@ print(np.max(x)) # 최대값 1로 min,max 제대로 적용 확인 완료
 
 
 
-
-# #2. model (순차형)
-# model=Sequential()
-# # model.add(Dense(1,input_dim=13)) # (?,13)
-# model.add(Dense(50,input_shape=(13,))) # (13,?)
-# model.add(Dense(40,activation='selu'))
-# model.add(Dense(30,activation='selu'))
-# model.add(Dense(20,activation='selu'))
-# model.add(Dense(10,activation='selu'))
-# model.add(Dense(1))
-
-# model.summary()
-
-
-
-
-
 #2-2 model (함수형) # Model import 필요, input layer 명시해주어야함 -> Input import 필요
-input1=Input(shape=(13,))
-dense1=Dense(50,activation='relu')(input1)
-dense2=Dense(40)(dense1)
-dense3=Dense(30)(dense2)
-dense4=Dense(20)(dense3)
-dense5=Dense(10)(dense4)
-output1=Dense(1,activation='relu')(dense5)
-model=Model(inputs=input1,outputs=output1)
+# input1=Input(shape=(13,))
+# dense1=Dense(50,activation='relu')(input1)
+# dense2=Dense(40)(dense1)
+# dense3=Dense(30)(dense2)
+# dense4=Dense(20)(dense3)
+# dense5=Dense(10)(dense4)
+# output1=Dense(1,activation='relu')(dense5)
+# model=Model(inputs=input1,outputs=output1)
+
+
+# model.save('c:/study/_save/keras29_1_save_model.h5')
+model=load_model('c:/study/_save/keras29_1_save_model.h5')
 
 model.summary() # 함수형 순차형 동일한 모델 params 같음
-
-
 
 
 
@@ -199,6 +184,10 @@ print(hist.history['loss']) # loss, val_loss 변화값 리스트 형태로 저�
 plt.figure(
     figsize=(9,6)
     )
+
+
+
+
 plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
 plt.plot(hist.history['val_loss'], c='blue',marker='.', label='val_loss') # epoch 순으로 가서 x값 생략해도 됨
 plt.grid()

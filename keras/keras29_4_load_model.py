@@ -5,7 +5,7 @@
 # 단점 : 이상치(outlier)에 너무 많은 영향을 받는다
 
 from sklearn.datasets import load_boston
-from tensorflow.keras.models import Sequential, Model
+from tensorflow.keras.models import Sequential, Model, load_model
 from tensorflow.keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -86,81 +86,28 @@ x_test=scaler_minmax.transform(x_test) # test에는 fit 쓰면 안됨
 print(np.min(x)) # MinMaxScaler 적용됬는지 np.min,max로 확인 최소값 0
 print(np.max(x)) # 최대값 1로 min,max 제대로 적용 확인 완료
 
+# model.save('c:/study/_save/keras29_3_save_model.h5')
+# 결과치
+#>>> print('loss: ',loss)
+# loss:  [2.726808547973633, 21.637340545654297]
+# >>> print('RMSE : ',RMSE(y_test,y_predict))
+# RMSE :  4.651595453932114
+# >>> print('r2: ',r2_score(y_test,y_predict))
+# r2:  0.7793885872040613
 
+model=load_model('c:/study/_save/keras29_3_save_model.h5') # 가중치도 저장되는 것 확인, 항상 같은 값 나옴
+# 결과치
+# >>> print('loss: ',loss)
+# loss:  [2.726808547973633, 21.637340545654297]
+# >>> print('RMSE : ',RMSE(y_test,y_predict))
+# RMSE :  4.651595453932114
+# >>> print('r2: ',r2_score(y_test,y_predict))
+# r2:  0.7793885872040613
 
-
-# #2. model (순차형)
-# model=Sequential()
-# # model.add(Dense(1,input_dim=13)) # (?,13)
-# model.add(Dense(50,input_shape=(13,))) # (13,?)
-# model.add(Dense(40,activation='selu'))
-# model.add(Dense(30,activation='selu'))
-# model.add(Dense(20,activation='selu'))
-# model.add(Dense(10,activation='selu'))
-# model.add(Dense(1))
-
-# model.summary()
-
-
-
-
-
-#2-2 model (함수형) # Model import 필요, input layer 명시해주어야함 -> Input import 필요
-input1=Input(shape=(13,))
-dense1=Dense(50,activation='relu')(input1)
-dense2=Dense(40)(dense1)
-dense3=Dense(30)(dense2)
-dense4=Dense(20)(dense3)
-dense5=Dense(10)(dense4)
-output1=Dense(1,activation='relu')(dense5)
-model=Model(inputs=input1,outputs=output1)
-
-model.summary() # 함수형 순차형 동일한 모델 params 같음
-
-
-
-
-
-#3. compile, training
-model.compile(
-    optimizer='nadam',
-    loss='mae',
-    metrics=['mse']
-)
-
-
-early_stopping = EarlyStopping(
-    monitor='val_loss',
-    patience=10,
-    verbose=2,
-    restore_best_weights=True
-)
-
-# model_checkpoint=ModelCheckpoint(
-#     filepath='./{epoch}-{val_loss:.2f}-{val_accuracy:.2f}.h5',
-#     monitor='val_loss',
-#     verbose=2,
-#     save_best_only=True
-# )
-
-
-hist=model.fit(
-    x_train,y_train,
-    epochs=1000,
-    batch_size=1,
-    verbose=2, # 일반적으로 1=모두 보여줌, 0 = 화면 안나옴,2= 생략해서 보여줌, 나머지=epoch 횟수만 보여줌 verbose 0으로 두면 계산속도가 더 많이 빨라짐.
-    # verbose 1= 13초 / verbose=0 = 10초
-    callbacks=[early_stopping],
-    validation_split=0.2
-)
 
 
 
 #4. 평가, 예측
-
-
-
-
 loss=model.evaluate(x_test,y_test)
 y_predict=model.predict(x_test)
 
@@ -176,11 +123,6 @@ def RMSE(y_test,y_predict):
 
 
 
-
-
-
-
-
 # 결과 값
 
 print('loss: ',loss)
@@ -188,25 +130,29 @@ print('RMSE : ',RMSE(y_test,y_predict))
 print('r2: ',r2_score(y_test,y_predict))
 
 
-print('===============================')
-print(hist) # <keras.callbacks.History object at 0x0000020D1D7BE520>
-print('===============================')
-print(hist.history['loss']) # loss, val_loss 변화값 리스트 형태로 저장되어 있음
-# {'키(loss)':[value1,value2,3..])}
-# 데이터 형태 = 리스트 => ['ㅁ','ㅠ','ㅊ'], 딕셔너리 => {'ㅁ':0,'ㅠ':2,'ㅊ':5} (딕셔너리는 {'키':value} 형태)
+# print('===============================')
+# # print(hist) # <keras.callbacks.History object at 0x0000020D1D7BE520>
+# # print('===============================')
+# # print(hist.history['loss']) # loss, val_loss 변화값 리스트 형태로 저장되어 있음
+# # {'키(loss)':[value1,value2,3..])}
+# # 데이터 형태 = 리스트 => ['ㅁ','ㅠ','ㅊ'], 딕셔너리 => {'ㅁ':0,'ㅠ':2,'ㅊ':5} (딕셔너리는 {'키':value} 형태)
 
 
-plt.figure(
-    figsize=(9,6)
-    )
-plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
-plt.plot(hist.history['val_loss'], c='blue',marker='.', label='val_loss') # epoch 순으로 가서 x값 생략해도 됨
-plt.grid()
-plt.xlabel('epochs')
-plt.ylabel('loss')
-plt.title('boston loss')
-plt.legend(loc='upper right') # 'upper left'
-plt.show()
+# plt.figure(
+#     figsize=(9,6)
+#     )
+
+
+
+
+# # plt.plot(hist.history['loss'], c='red', marker='.', label='loss')
+# # plt.plot(hist.history['val_loss'], c='blue',marker='.', label='val_loss') # epoch 순으로 가서 x값 생략해도 됨
+# plt.grid()
+# plt.xlabel('epochs')
+# plt.ylabel('loss')
+# plt.title('boston loss')
+# plt.legend(loc='upper right') # 'upper left'
+# plt.show()
 
 
 
