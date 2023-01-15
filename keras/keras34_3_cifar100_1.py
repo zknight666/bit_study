@@ -9,10 +9,12 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from sklearn.model_selection import train_test_split
 from keras.utils import np_utils
 from keras.preprocessing.image import ImageDataGenerator
-
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # 1. data
 (x_train, y_train), (x_test, y_test) = cifar100.load_data()
+
 
 # 1) data 확인
 print(x_train.shape)  # (50000, 32, 32, 3)
@@ -45,19 +47,19 @@ x_train, x_val, y_train, y_val = train_test_split(
 model = Sequential()
 model.add(Conv2D(filters=64, kernel_size=(2, 2), input_shape=(
     32, 32, 3), activation='relu', padding='same'))
-model.add(Dropout(rate=0.5))
+model.add(Dropout(rate=0.2))
 model.add(Conv2D(filters=64, kernel_size=(2, 2),
           activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(rate=0.5))
+model.add(Dropout(rate=0.2))
 model.add(Conv2D(filters=64, kernel_size=(2, 2),
           activation='relu', padding='same'))
-model.add(Dropout(rate=0.5))
+model.add(Dropout(rate=0.2))
 model.add(Flatten())
 # inputshape = (batch_size, input_dim) -> 행무시 -> (40000,)로 표시
 model.add(Dense(512, activation='relu'))
 #inputshape = (batch_size, input_dim)
-model.add(Dropout(rate=0.5))
+model.add(Dropout(rate=0.2))
 model.add(Dense(100, activation='softmax'))
 
 
@@ -133,7 +135,13 @@ acc :  0.424699991941452
 ImageDataGenerator 추가
 0.3 나옴
 
-stratify 추가
+stratify 추가, dropout 0.2로 변경
+
+
+
+
+
+print(np.unique(y_train, return_counts=True)) 로 y클래스 몇개 있는지 확인 불균형 정도 확인
 
 
 """
