@@ -31,9 +31,9 @@ print(y_train[0]) # [19]
 #1)) 실수형으로 변경
 x_train = x_train.astype('float32') / 255.0
 x_test = x_test.astype('float32') / 255.0
-y_train = y_train.flatten()
-y_test = y_test.flatten()
-print(y_train)
+# y_train = y_train.flatten()
+# y_test = y_test.flatten()
+# print(y_train)
 
 
 #2)) 원-핫 인코딩
@@ -41,33 +41,25 @@ print(y_train)
 # y_test = np_utils.to_categorical(y_test)
 # num_classes = y_test.shape[1]
 
-#100개의 클래스 100개의 컬럼 어쩌구
-#10개의 클래스 10개 컬럼
-# stratify 필요
-# 2개
 
-# x=x_train,x_test
-# y=y_train,y_test
-
-
-# x_test,x_val,y_test,y_val=train_test_split(
-#     x_test,y_test,
-#     train_size=0.5,
-#     random_state=333,
-#     stratify=y_train,
-#     shuffle=True
-# )
-
+x_train, x_val, y_train, y_val = train_test_split(
+    x_train, y_train,
+    train_size=0.8,
+    random_state=42,
+    shuffle=True,
+    # y_train 훈련 (class)data 비율과 y_val 검증 (class)data 비율을 같게 함
+    stratify=y_train
+)
 
 
 
 datagen = ImageDataGenerator(
-    rotation_range=10,
-    zoom_range=0.1,
-    shear_range=0.5,
-    width_shift_range=0.1,
-    height_shift_range=0.1,
-    horizontal_flip=True
+    # rotation_range=10,
+    # zoom_range=0.1
+    # shear_range=0.5,
+    # width_shift_range=0.1,
+    # height_shift_range=0.1,
+    # horizontal_flip=True
 )
 
 datagen.fit(x_train)
@@ -132,11 +124,9 @@ model_checkpoint=ModelCheckpoint(
 model.fit_generator(datagen.flow(x_train,y_train,batch_size=500),
     epochs=40,
     verbose=2,
-    # validation
-    # validation_split=0.2,
+    validation_data=(x_val, y_val),
     callbacks=[early_stoppong],
     shuffle=True,
-    
 )
 
 end=time.time()
@@ -172,7 +162,7 @@ acc :  0.424699991941452
 걸린시간 :  229.69466423988342
 
 
-ImageDataGenerator 추가
+ImageDataGenerator 추가 acc가 더 낮게 나옴
 0.3 나옴
 
 stratify 추가

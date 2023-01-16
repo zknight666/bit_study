@@ -35,31 +35,36 @@ x_test = x_test.astype('float32') / 255.0
 
 x_train, x_val, y_train, y_val = train_test_split(
     x_train, y_train,
-    test_size=0.2,
-    random_state=42,
+    train_size=0.8,
+    random_state=1234,
     shuffle=True,
     # y_train 훈련 (class)data 비율과 y_val 검증 (class)data 비율을 같게 함
     stratify=y_train
 )
 
 
+
+
+
+
+
 # 2. model
 model = Sequential()
 model.add(Conv2D(filters=64, kernel_size=(2, 2), input_shape=(
     32, 32, 3), activation='relu', padding='same'))
-model.add(Dropout(rate=0.2))
+model.add(Dropout(rate=0.5))
 model.add(Conv2D(filters=64, kernel_size=(2, 2),
           activation='relu', padding='same'))
 model.add(MaxPooling2D(pool_size=(2, 2)))
-model.add(Dropout(rate=0.2))
+model.add(Dropout(rate=0.5))
 model.add(Conv2D(filters=64, kernel_size=(2, 2),
           activation='relu', padding='same'))
-model.add(Dropout(rate=0.2))
+model.add(Dropout(rate=0.5))
 model.add(Flatten())
 # inputshape = (batch_size, input_dim) -> 행무시 -> (40000,)로 표시
 model.add(Dense(512, activation='relu'))
 #inputshape = (batch_size, input_dim)
-model.add(Dropout(rate=0.2))
+model.add(Dropout(rate=0.5))
 model.add(Dense(100, activation='softmax'))
 
 
@@ -76,7 +81,7 @@ start = time.time()
 
 early_stoppong = EarlyStopping(
     monitor='val_loss',
-    patience=10,
+    patience=20,
     verbose=2,
     restore_best_weights=True
 )
@@ -96,8 +101,8 @@ model_checkpoint = ModelCheckpoint(
 
 model.fit(
     x_train, y_train,
-    batch_size=500,
-    epochs=40,
+    batch_size=32,
+    epochs=120,
     verbose=2,
     validation_data=(x_val, y_val),
     callbacks=[early_stoppong]
