@@ -1,0 +1,18 @@
+1) 실업률 data
+2) South Korea GDP Growth Rate
+3) South Korea Core Inflation Rate
+4) Interest Rate
+5) South Korea Balance of Trade
+6) South Korea Labor Force Participation Rate
+7) Money Supply M2
+8) South Korea Industrial Production Mom
+9) South Korea Retail Sales MoM
+10) South Korea Consumer Confidence
+11) south korea suicide rate data
+
+
+1)) 단위%로 통일할 것
+2)) 기간 2000~2022.11
+전처리 data 통일할 것
+
+
