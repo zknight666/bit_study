@@ -1,4 +1,4 @@
-DATE,korea 10y Bond Yields MoM,Unemployrate MoM,South Korea Labor Force Participation Rate MoM,South Korea Core Inflation Rate MoM,Net Trade Value Goods for the Republic of Korea MoM,Money Supply M2 MoM,취업자 수
+DATE,korea 10y Bond Yields MoM,Unemployrate MoM,South Korea Labor Force Participation Rate MoM,South Korea Core Inflation Rate MoM,Net Trade Value Goods for the Republic of Korea MoM,Money Supply M2 MoM,the number of employed people
 2000-10-01,8.25,4.1,61.5,69.82933041,864371228.1,698792.9,21731
 2000-11-01,7.86,4.2,61.3,69.82933041,682624143.6,704545,21566
 2000-12-01,7.18,4.3,61.2,70.03668351,1040119012,704065.6,21071
@@ -265,4 +265,3 @@ DATE,korea 10y Bond Yields MoM,Unemployrate MoM,South Korea Labor Force Particip
 2022-09-01,3.897,2.8,64.01625316,111.8331442,-5965587925,3745708.5,28389
 2022-10-01,4.267,2.8,63.96944071,112.2351553,-7795625264,3768318.1,28418
 2022-11-01,3.915,2.9,63.9294667,112.5631118,-7091054802,3781827.7,28421
-2022-12-01,3.541,,,112.8699097,,,27808
