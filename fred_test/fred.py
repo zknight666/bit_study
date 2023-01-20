@@ -13,26 +13,37 @@ import time
 
 
 # 1. data (data 불러오기, column 확인, 결측치 확인, 데이터 전처리)
-datasets = pd.read_csv(
-    'C:/Users/hasin/Documents/GitHub/bit_study/_data/fred.stlouisfed/dataset.csv', index_col=[0])
-submission_csv = pd.read_csv(
-    'C:/Users/hasin/Documents/GitHub/bit_study/_data/fred.stlouisfed/submission.csv', index_col=0)
-# datasets = pd.read_csv('C:/study/_data/fred.stlouisfed/dataset.csv', index_col=[0])
-# submission_csv = pd.read_csv('C:/study/_data/fred.stlouisfed/submission.csv', index_col=0)
+"""
+<datasets에서 train과 test 랜덤 분리>
+
+train_data, test_data = train_test_split(
+    datasets,
+    train_size=0.8,
+    random_state=1,
+    shuffle=True
+)
+train_data.to_csv('train.csv', index=False)
+test_data.to_csv('test.csv', index=False)
+"""
+
+train_csv = pd.read_csv('C:/study/_data/fred.stlouisfed/train.csv', index_col=[0])
+test_csv = pd.read_csv('C:/study/_data/fred.stlouisfed/test.csv', index_col=0)
+submission_csv = pd.read_csv('C:/study/_data/fred.stlouisfed/submission.csv', index_col=0)
+
+print(train_csv)
+print(test_csv)
+print(train_csv.shape) # (212, 7)
+print(test_csv.shape) # (54, 7)
 
 
-x = datasets.drop('the number of employed people', axis=1)
-y = datasets['the number of employed people']
+x = train_csv.drop('the number of employed people', axis=1)
+y = train_csv['the number of employed people']
 
 print(x)
 print(y)
-print(x.shape)  # (266, 6)
-print(y.shape)  # (266,)
-print(datasets)  # [266 rows x 7 columns]
-print(datasets.shape)  # (266, 7)
+print(x.shape)  # (212, 6)
+print(y.shape)  # (212,)
 print(submission_csv)
-print(datasets.info())
-print(datasets.describe())  # 최대,최소값 확인
 
 
 x_train, x_test, y_train, y_test = train_test_split(
@@ -45,10 +56,11 @@ x_train, x_test, y_train, y_test = train_test_split(
 # scaler_standard=StandardScaler()
 # x_train=scaler_standard.fit_transform(x_train)
 # x_test=scaler_standard.transform(x_test)
-# scaler_minmax=MinMaxScaler()
-# x_train=scaler_minmax.fit_transform(x_train)
-# x_test=scaler_minmax.transform(x_test)
-# test_csv=scaler_minmax.transform(test_csv)     ##########매우 중요 ### x data를 scaling했으므로 submission x data 또한 scaling 필요 / 모든 x data scaling 필요#######
+scaler_minmax=MinMaxScaler()
+x_train=scaler_minmax.fit_transform(x_train)
+x_test=scaler_minmax.transform(x_test)
+test_csv=scaler_minmax.transform(test_csv)     ##########매우 중요 ### x data를 scaling했으므로 submission x data 또한 scaling 필요 / 모든 x data scaling 필요#######
+
 
 
 # 2.2 model (함수형)
