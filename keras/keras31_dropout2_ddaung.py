@@ -53,6 +53,7 @@ x = train_csv.drop('count', axis=1)
 y = train_csv['count']
 print(x)
 print(y)
+print(x.shape)
 
 
 x_train, x_test, y_train, y_test = train_test_split(
