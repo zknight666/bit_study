@@ -14,34 +14,46 @@ from keras.utils import np_utils
 
 (x_train,y_train), (x_test,y_test) = cifar10.load_data()
 
+
+#2) dnn 모델로 전환하기 위한 data reshape
+x_train=x_train.reshape(50000,32*32*3)
+x_test=x_test.reshape(10000,32*32*3)
+# x_train=x_train/255.
+# x_test=x_test/255.
+
 #1) data 확인 
-print(x_train.shape) # (50000, 32, 32, 3) # input shape가 3232 3 -> reshape 필요 없음
+print(x_train.shape) # (50000, 3072)
 print(y_train.shape) # (50000, 1)
-print(x_test.shape) # ((10000, 32, 32, 3)
+print(x_test.shape) # (10000, 3072)
 print(y_test.shape) # (10000, 1)
 print(x_train[0]) # (32,32)
 print(y_train[0]) # (6)
 
 
 
+
+
+
+
 #1) 정규화 (datasets 전처리)
 
 #1)) data class 확인
-print(np.unique(x_train,return_counts=True)) #dtype=uint8, 8비트의 부호 없는 정수형 배열 형태 => 0~255까지만 가능
+print(np.unique(x_train,return_counts=True)) #dtype=uint8, 8비트의 부호 없는 정수형 배열 형태
 print(type(x_train)) # <class 'numpy.ndarray'> 확인 안되네
 print(type(x_test))
 print(np.unique(y_train,return_counts=True)) # (array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], dtype=uint8), array([5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000, 5000], dtype=int64))
 
 
-#2)) 실수형으로 변경
+# #2)) 실수형으로 변경
 x_train = x_train.astype('float32') / 255.0
 x_test = x_test.astype('float32') / 255.0
 
 
-#3)) 원-핫 인코딩
+
+# #3)) 원-핫 인코딩
 y_train = np_utils.to_categorical(y_train)
 y_test = np_utils.to_categorical(y_test)
-num_classes = y_test.shape[1]
+# num_classes = y_test.shape[1]
 
 
 
@@ -52,18 +64,14 @@ num_classes = y_test.shape[1]
 
 #2. model
 model=Sequential()
-model.add(Conv2D(filters=64,kernel_size=(2,2),input_shape=(32,32,3),activation='relu', padding='same'))
-model.add(Dropout(rate=0.2))
-model.add(Conv2D(filters=64,kernel_size=(2,2),activation='relu', padding='same')) 
-model.add(MaxPooling2D(pool_size=(2,2)))
-model.add(Dropout(rate=0.2))
-model.add(Conv2D(filters=64,kernel_size=(2,2),activation='relu', padding='same')) 
-model.add(Dropout(rate=0.2))
-model.add(Flatten()) 
-model.add(Dense(512,activation='relu')) #inputshape = (batch_size, input_dim) -> 행무시 -> (40000,)로 표시
-                                       #inputshape = (batch_size, input_dim)
-model.add(Dropout(rate=0.2))
-model.add(Dense(num_classes, activation='softmax'))
+model.add(Dense(50,activation='relu', input_shape=(32*32*3,)))
+model.add(Dense(512,activation='relu'))
+model.add(Dropout(rate=0.5))
+# model.add(Flatten())
+model.add(Dense(10,activation='softmax'))
+
+
+
 
 
 
@@ -174,11 +182,18 @@ acc :  0.7304999828338623
 걸린시간 :  200.289692401886
 
 
+
+dnn 모델 + scaler 추가
+
+
+
+
 padding이란
 maxpooling이란
 shuffle 방법
 model fit shuffle true 의미
 데이터 증대(Data Augmentation) = 사진 resize (회전, 축소)
+
 """
 
 
