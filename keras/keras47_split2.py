@@ -5,7 +5,9 @@ from tensorflow.keras.models import Sequential
 
 
 #1. data
+
 a= np.array(range(1,11)) # = [1,2,3,4,5]
+
 timesteps=5   # => (n,5,1)
 
 
