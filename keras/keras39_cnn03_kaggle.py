@@ -24,7 +24,7 @@ print(train_csv.info()) # <class 'pandas.core.frame.DataFrame'> 11개 컬럼, dt
 print(test_csv.info()) # 8개 컬럼 (casual, registered, count 값 없음), 결측치 없음
 
 #1.2) x 나누기 (submission용 컬럼 drop 시키기) & column 맞추기(# test에 없는 train 컬럼 drop시키기)
-x=train_csv.drop(['count','casual','registered'],axis=1)
+x=train_csv.drop(['count','casual','registered'],axis=1) # [axis=1 => columns / axis=0 => rows] 의미
 
 #1.3) column drop 여부 확인
 print(x) # [10886 rows x 8 columns] 8 columns으로 동일하게 맞춰줌
@@ -68,10 +68,12 @@ x_train=x_train.values
 x_test=x_test.values
 
 # #1.9) scaler 적용 ★ 차원 다르면 적용 안되므로 순서 중요 (numpy 변환 후 reshape 전)★
-# scaler_minmax=MinMaxScaler()
-# x_train=scaler_minmax.fit_transform(x_train)
-# x_test=scaler_minmax.transform(x_test)
-# test_csv=scaler_minmax.transform(test_csv)
+# UserWarning: X has feature names, but MinMaxScaler was fitted without feature names   warnings.warn(   <= 경고 뜨는 이유는?? X 값 없는뎅
+# scaler 전, 후 loss 값 비교를 통해 적용은 정상적으로 되는 것 확인
+scaler_minmax=MinMaxScaler()
+x_train=scaler_minmax.fit_transform(x_train)
+x_test=scaler_minmax.transform(x_test)
+test_csv=scaler_minmax.transform(test_csv)
 
 #1.10) CNN 모델을 위한 reshape
 x_train=x_train.reshape(8708,8,1,1)
@@ -157,14 +159,19 @@ r2 :  0.21736667377761065
 RMSE :  155.25522796854864
 걸린시간 :  22.403573751449585
 
-scaler 적용 후
+scaler 적용 전
+loss :  108.9417953491211
+mse :  23816.705078125
+r2 :  0.22670088063396143
+RMSE :  154.32661215911583
+걸린시간 :  11.184664487838745
+
+scaler 적용 후 
 loss :  105.32270050048828
 mse :  23031.8984375
 r2 :  0.25218252166560307
 RMSE :  151.7626391823353
 걸린시간 :  96.43893527984619
-
-scaler 적용 전
 
 """
 

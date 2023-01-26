@@ -21,8 +21,9 @@ y=datasets['target']
 #1.2) 총 data 개수, 컬럼 확인 & 클래스 확인 & Dtype 확인 & 결측치 확인
 print(x.shape) # (178, 13) 컬럼 13개
 print(y.shape) # (178,)
-
-print(np.unique(y,return_counts=True)) # (array([0, 1, 2]), array([59, 71, 48], dtype=int64))
+print(np.info(x))   # pandas = .info() <=> numpy = np.info(x) or (np.unique(y,return 어쩌구)
+print(np.isnan(x).sum()) # pandas = .isnull().sum() <=> numpy = .isnan()
+print(np.unique(y,return_counts=True)) # (array([0, 1, 2]), array([59, 71, 48], dtype=int64)) => 클래스 3개, 
 
 # plt.gray()
 # plt.matshow(datasets.images[9])
@@ -34,7 +35,7 @@ print(np.unique(y,return_counts=True)) # (array([0, 1, 2]), array([59, 71, 48], 
 y=to_categorical(y)
 print(x)
 print(y)
-print(y.shape) # (1797, 10) 변환 확인 완료
+print(y.shape) # (178, 3)
 
 
 
@@ -53,13 +54,12 @@ print(x_train.shape) # (142, 13)
 print(x_test.shape) # (36, 13)
 
 
-
 # scaler_standard=StandardScaler()
 # x_train=scaler_standard.fit_transform(x_train)
 # x_test=scaler_standard.transform(x_test)
-# scaler_minmax=MinMaxScaler()
-# x_train=scaler_minmax.fit_transform(x_train)
-# x_test=scaler_minmax.transform(x_test)
+scaler_minmax=MinMaxScaler()
+x_train=scaler_minmax.fit_transform(x_train)
+x_test=scaler_minmax.transform(x_test)
 
 
 # reshape
@@ -93,13 +93,13 @@ x_test=x_test.reshape(36,13,1,1)
 
 #2.3 CNN model
 model=Sequential()
-model.add(Conv2D(filters=32,kernel_size=(2,1),strides=1,padding='same',activation='relu',input_shape=(9,1,1),))
+model.add(Conv2D(filters=32,kernel_size=(2,1),strides=1,padding='same',activation='relu',input_shape=(13,1,1),))
 model.add(Conv2D(filters=32,kernel_size=(2,1),strides=1,padding='same',activation='relu'))
 model.add(MaxPooling2D(pool_size=(2,1),strides=1))
 model.add(Dropout(rate=0.2))
 model.add(Dense(128,activation='relu'))
 model.add(Flatten())
-model.add(Dense(1,activation='relu'))
+model.add(Dense(3,activation='softmax'))
 
 
 
@@ -117,7 +117,7 @@ model.compile(
 
 early_stopping=EarlyStopping(
     monitor='val_loss',
-    patience=50,
+    patience=20,
     verbose=2,
     restore_best_weights=True
 )
@@ -145,7 +145,7 @@ hist=model.fit(
     batch_size=1,
     verbose=2,
     validation_split=0.2,
-    callbacks=[early_stopping, model_checkpoint]
+    callbacks=[early_stopping]
 )
 
 

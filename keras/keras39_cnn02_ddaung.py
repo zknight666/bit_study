@@ -5,7 +5,10 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Conv2D, Dropout, MaxPooling2D, Dense, Flatten
 
+
+
 #1. data 전처리
+
 # 1.1) data 불러오기
 
 train_csv=pd.read_csv('C:/study/_data/ddarung/train.csv',index_col=[0])
@@ -50,10 +53,11 @@ print(x_train.shape) # (1062, 9)
 print(x_test.shape) # (266, 9)
 
 
-#1.8) CNN 모델을 위한 reshape를 위한 numpy 변환
+#1.8) CNN 모델을 위한 reshape를 위한 numpy 변환 / #1.2에서 클래스 pandas 인 것 확인
 x_train=x_train.values
 x_test=x_test.values
 
+print(type(x_train)) # 변환 확인
 
 # #1.9) scaler 적용 ★ 차원 다르면 적용 안되므로 순서 중요 (numpy 변환 후 reshape 전)★
 # scaler_minmax=MinMaxScaler()

@@ -53,13 +53,14 @@ x_train, x_test, y_train, y_test = train_test_split(
     shuffle=True
 )
 
+
 # scaler_standard=StandardScaler()
 # x_train=scaler_standard.fit_transform(x_train)
 # x_test=scaler_standard.transform(x_test)
 # scaler_minmax=MinMaxScaler()
 # x_train=scaler_minmax.fit_transform(x_train)
 # x_test=scaler_minmax.transform(x_test)
-# test_csv=scaler_minmax.transform(test_csv)     ##########매우 중요 ### x data를 scaling했으므로 submission x data 또한 scaling 필요 / 모든 x data scaling 필요#######
+# test_csv=scaler_minmax.transform(test_csv)    
 
 
 
