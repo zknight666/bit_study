@@ -1,16 +1,16 @@
 import numpy as np
 from tensorflow.keras.layers import LSTM, Dense, SimpleRNN
 from tensorflow.keras.models import Sequential
-
+from sklearn.model_selection import train_test_split
 
 
 #1. data
 
-a= np.array(range(1,11)) # = [1,2,3,4,5]
+a= np.array(range(1,101)) # = [1,2,3,4,5]
+x_predict= np.array(range(96,106)) # 96~105 예상 y=100,107
 
-timesteps=5   # => (n,5,1)
-
-
+timesteps1=5 # x=4, y=1
+timesteps2=4 # 
 
 def split_x(dataset, timesteps):  # : <- 함수 시작 의미
     aaa=[]    # 빈리스트 생성
@@ -19,9 +19,9 @@ def split_x(dataset, timesteps):  # : <- 함수 시작 의미
         aaa.append(subset)
     return np.array(aaa)
     # 리스트에 한개씩 넣기
-bbb=split_x(a,timesteps)
+bbb=split_x(a,timesteps1)
 print(bbb)
-print(bbb.shape) # (6,5)
+print(bbb.shape) # (96,5)
 
 
 x= bbb[:,:-1]
@@ -32,15 +32,34 @@ print(y)
 print(x.shape) #(6, 4)
 print(y.shape) # (6, )
 
-
-x=x.reshape(6,4,1) #
-
-print(x.shape) #
-
-# 실습
-# LSTM 모델 구성
+x_predict=split_x(x_predict,timesteps2)
+print(x_predict)
+print(x_predict.shape) # (96,5)
 
 
+
+x_train,x_test,y_train,y_test=train_test_split(
+    x,y,
+    random_state=1,
+    shuffle=True,
+    train_size=0.8
+)
+
+print(x_train.shape)
+print(x_test.shape)
+print(y_test.shape)
+print(y_train.shape)
+print(x_predict.shape)
+
+x_train=x_train.reshape(72,4,1) #
+x_test=x_test.reshape(24,4,1) #
+x_predict=x_predict.reshape(7,4,1)
+
+print(x_train.shape)
+print(x_test.shape)
+print(y_test.shape)
+print(y_train.shape)
+print(x_predict.shape)
 
 #2. model
 model=Sequential()
@@ -55,36 +74,16 @@ model.summary()
 
 #3. compile, training
 model.compile(optimizer='adam',loss='mse',metrics='mae')
-model.fit(x,y,batch_size=1,epochs=50)
+model.fit(x_train,y_train,batch_size=1,epochs=50)
 
 
 #4. 평가, 예측
-results=model.evaluate(x,y)
+results=model.evaluate(x_test,y_test)
 print('mse : ',results[0])
 print('mae : ',results[1])
 
 
-x_predict=np.array([8,9,10,11]).reshape(1,4,1) #
+# x_predict=np.array([8,9,10,11]).reshape(1,4,1) #
 result=model.predict(x_predict)
 print('11 결과 : ',result)
-
-
-"""
-[[1 2 3]
-[2 3 4]
-[3 4 5]]
-"""
-# def split(dataset,time_steps):
-#     xs=list()
-#     ys=list()
-#     for i in range(0,len(dataset)-time_steps):
-#         x=dataset[i:i+time_steps]
-#         y=dataset[i+time_steps]
-#         # print(f"{x}:{y}")
-#         xs.append(x)
-#         ys.append(y)
-#     return np.array(xs),np.array(ys)
-# xs,ys=split(dataset,4)
-# 이것도 참고해보기
-
 
