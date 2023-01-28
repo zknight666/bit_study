@@ -19,8 +19,8 @@ def split_x(dataset, timesteps):  # : <- 함수 시작 의미
     for i in range(len(dataset)-timesteps+1): # len(dataset) = dataset의 총 길이 = 100개  #  100-5+1=94번 반복 의미 -> i에 0~93이 들어감    # subset, x_split 문장을 반복
         x_set= dataset[i : (i + timesteps)] # for문을 통해 x_set, x_split 문장을 반복 0:0+5 = 0,1,2,3,4 => 1,2,3,4,5 => 93번 반복 dataset[a:b] => a부터 b까지  / [0:3] -> 1,2,3/ [1:4] -> 2,3,4 / [2:5] -> 3,4,5 까지 3번 반복
         y_set= dataset[i + timesteps] # 0+5 = 5번째 항목 선택 => 6번째,7번째... => 93번 반복
-        x_split.append(x_set)
-        y_split.append(y_set)
+        x_split.append(x_set) # x_set라는 변수에 저장된 값을 x_split 리스트에 추가
+        y_split.append(y_set) # y_set라는 변수에 저장된 값을 y_split 리스트에 추가
     return np.array(x_split), np.array(y_split)
 
 

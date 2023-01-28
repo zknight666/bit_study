@@ -18,16 +18,14 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 #1. data 전처리
 # 1.1) data 불러오기, thousands를 통해 숫자형 data로 불러옴
 
-samdf01_csv=pd.read_csv('C:/study/_data/sam01/삼성전자 주가.csv',index_col=[0],encoding='cp949',thousands=',') # thousands를 통해 object문제 해결 -> int64, float64 같이 써도 문제 없는가? -> 문제 없음 오히려 int64를 float64로 바꾸면 소수점 데이터 손실+데이터 용량 증가 발생.
-amodf01_csv=pd.read_csv('C:/study/_data/sam01/아모레퍼시픽 주가.csv',index_col=[0],encoding='cp949', thousands=',')
-# submission_csv=pd.read_csv('C:/study/_data/kospi200/submission.csv',index_col=[0])
-
-
+samdf01_csv=pd.read_csv('C:/study/_data/sam01/삼성전자 주가.csv',encoding='cp949',thousands=',') # thousands를 통해 object문제 해결 -> int64, float64 같이 써도 문제 없는가? -> 문제 없음 오히려 int64를 float64로 바꾸면 소수점 데이터 손실+데이터 용량 증가 발생.
+amodf01_csv=pd.read_csv('C:/study/_data/sam01/아모레퍼시픽 주가.csv',encoding='cp949', thousands=',')
+samdf01_csv['일자'] = pd.to_datetime(samdf01_csv['일자'])
 
 #1.2) 총 data 개수, 컬럼 확인 & 클래스 확인 & Dtype 확인 & 결측치 확인
 print(samdf01_csv)
-print(samdf01_csv.shape) # (1980, 16)
-print(amodf01_csv.shape) # (2220, 16)
+print(samdf01_csv.shape) # (1980, 17)
+print(amodf01_csv.shape) # (2220, 17)
 print(samdf01_csv.info()) # <class 'pandas.core.frame.DataFrame'>, 16개 컬럼, 결측치 존재, dtypes: float64(5), int64(10), object(1) -> 숫자에 , 붙은 컬럼들 전부 다 object 취급함 -> , 삭제 필요 -> 삭제 완료
 print(amodf01_csv.info()) # <class 'pandas.core.frame.DataFrame'>, 16개 컬럼, 결측치 존재, dtypes: float64(5), int64(10), object(1)
 
@@ -39,7 +37,7 @@ samdf01_csv=samdf01_csv.dropna() # 결측치 있는 행 삭제
 
 print(samdf01_csv.isnull().sum()) # 결측치 삭제 여부 재 확인
 print(samdf01_csv.info()) #data 개수 재 확인 (결측치를 삭제했을 때 각 컬럼 별 data가 충분한지) => 한 컬럼당 1328개 data
-print(samdf01_csv.shape) # (1977, 16)
+print(samdf01_csv.shape) # (1977, 17)
 
 #amo
 print(amodf01_csv.isnull().sum()) # 각 컬럼 별 결측치 개수 따로 확인
@@ -47,7 +45,7 @@ amodf01_csv=amodf01_csv.dropna() # 결측치 있는 행 삭제
 
 print(amodf01_csv.isnull().sum()) # 결측치 삭제 여부 재 확인
 print(amodf01_csv.info()) #data 개수 재 확인 (결측치를 삭제했을 때 각 컬럼 별 data가 충분한지) => 한 컬럼당 1328개 data
-print(amodf01_csv.shape) # (2210, 16)
+print(amodf01_csv.shape) # (2210, 17)
 
 
 
@@ -71,7 +69,7 @@ amodf01_csv = amodf01_csv.sort_values(by='일자', ascending=True)
 amodf01_csv.tail()
 # 1.3) data 개수 통일 (train,test split을 위한)
 amodf01_csv = samdf01_csv.sample(n=len(samdf01_csv), random_state=42)
-print(amodf01_csv.shape) # (1977, 12)
+print(amodf01_csv.shape) # (1977, 13)
 
 #1.7) y 나누기
 x1=samdf01_csv
@@ -138,7 +136,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Input
 
 #2-1 모델1
-input1=Input(shape=(12,))
+input1=Input(shape=(13,))
 dense1=Dense(11,activation='relu', name='ds11')(input1)
 dense2=Dense(12,activation='relu', name='ds12')(dense1)
 dense3=Dense(13,activation='relu', name='ds13')(dense2)
@@ -146,7 +144,7 @@ output1=Dense(14,activation='relu', name='ds14')(dense3)
 
 
 #2-2 모델2
-input2=Input(shape=(12,))
+input2=Input(shape=(13,))
 dense21=Dense(21,activation='relu', name='ds21')(input2)
 dense22=Dense(22,activation='relu', name='ds22')(dense21)
 output2=Dense(23,activation='relu', name='ds23')(dense22)

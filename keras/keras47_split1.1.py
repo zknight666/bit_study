@@ -5,26 +5,25 @@ from tensorflow.keras.models import Sequential
 
 
 #1. data
-a= np.array(range(1,11)) # = [1,2,3,4,5]
-timesteps=5   # => (n,5,1)
+# a= np.array([range(1,6)]) # = [1,2,3,4,5]
+a = np.array([range(100),range(301,401)])
+# timesteps=3   # => (n,5,1)
 
 
 
 def split_x(dataset, timesteps):  # : <- 함수 시작 의미
     aaa=[]    # 빈리스트 생성
-    for i in range(len(dataset) - timesteps +1): # len(dataset) = dataset의 리스트  #  5-3+1=3번 반복 의미 -> i에 0,1,2이 들어감    # subset, aaa 문장을 반복
+    for i in range(len(dataset)): # len(dataset) = dataset의 리스트  #  5-3+1=3번 반복 의미 -> i에 0,1,2이 들어감    # subset, aaa 문장을 반복
         subset= dataset[i : (i + timesteps)] # for문을 통해 subset, aaa 문장을 반복       dataset[a:b] => a부터 b까지  / [0:3] -> 1,2,3/ [1:4] -> 2,3,4 / [2:5] -> 3,4,5 까지 3번 반복
         aaa.append(subset)
     return np.array(aaa)
     # 리스트에 한개씩 넣기
-bbb=split_x(a,timesteps)
-print(bbb)
-print(bbb.shape) # (6,5)
-
-
-x= bbb[:,:-1]
-y= bbb[:,-1]
-
+bbb=split_x(a,1)
+# print(bbb)
+# print(bbb.shape) # (6,5)
+x= bbb[:,:-1] # 모든 행에서, 모든 열에서 마지막 열을 제외한 x data 출력
+y= bbb[:,-1] # 모든 행에서, 모든 열에서 마지막 열만 y data 출력
+print(bbb[0,:]) 
 print(x)
 print(y)
 print(x.shape) #(6, 4)

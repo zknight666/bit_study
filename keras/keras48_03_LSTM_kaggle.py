@@ -43,7 +43,6 @@ x_train,x_test,y_train,y_test=train_test_split(
     shuffle=True,
     random_state=1000,
     train_size=0.8
-    
 )
 
 #1.7) data 분류 후 train, test data 양 확인
