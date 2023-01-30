@@ -20,7 +20,32 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 
 samdf01_csv=pd.read_csv('C:/study/_data/sam01/삼성전자 주가.csv',index_col=[0],encoding='cp949',thousands=',') # thousands를 통해 object문제 해결 -> int64, float64 같이 써도 문제 없는가? -> 문제 없음 오히려 int64를 float64로 바꾸면 소수점 데이터 손실+데이터 용량 증가 발생.
 amodf01_csv=pd.read_csv('C:/study/_data/sam01/아모레퍼시픽 주가.csv',index_col=[0],encoding='cp949', thousands=',')
-# submission_csv=pd.read_csv('C:/study/_data/kospi200/submission.csv',index_col=[0])
+
+
+def split_xy(dataset, timesteps,y_column): # timesteps = 특정 길이,열
+    x,y=list(),list()
+    for i in range(len(dataset)): # i = 인덱스 (행) 
+        x_end_number = i+timesteps # x의 끝자리 = 해당 인덱스 번호 + 필요한 나머지 컬럼개수만큼[[a][b][c][d]]
+        y_end_number = x_end_number+y_column
+        if y_end_number > len(dataset):
+            break
+        tmp_x=dataset[i:x_end_number,:] #  i번째부터 x_end_number번째까지의, 모든 열에서의 데이터를 가져옴 -> tep_x 저장
+        tmp_y=dataset[x_end_number:y_end_number,1] # x_end_number부터 y_end_number까지의 1번째 인덱스(시가) 열의 데이터만 가져옴 -> tep_y 저장
+        x.append(tmp_x) # tmp_x라는 변수에 저장된 값을 x 리스트에 추가
+        y.append(tmp_y) # tmp_y라는 변수에 저장된 값을 y 리스트에 추가
+    return np.array(x), np.array(y)
+x1,y1=split_xy(samdf01_csv,5,1)
+x2,y2=split_xy(amodf01_csv,5,1)
+print(x1[0,:],"\n", y1[0]) # 모든 열에서의 첫행 x1 data 출력 / 첫행 y1 data 출력
+print(x2[0,:],"\n", y2[0]) # 모든 열에서의 첫행 x2 data 출력 / 첫행 y2 data 출력
+print(x2.shape) # (2198, 12, 12)
+print(y2.shape) # (2198, 1)
+
+
+
+
+
+
 
 #1.2) 총 data 개수, 컬럼 확인 & 클래스 확인 & Dtype 확인 & 결측치 확인
 print(samdf01_csv)
@@ -81,6 +106,7 @@ print(x1.shape) # (1977, 12)
 print(x2.shape) # (1977, 12)
 print(y.shape) # (1977,)
 
+samdf01_csv['future_date'] = samdf01_csv['date'].shift(-3)
 
 #1.8) test data, train data 분리
 from sklearn.model_selection import train_test_split
