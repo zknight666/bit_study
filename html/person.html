@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+
+<title> 😎 </title>
+
+
+
+</head>
+<body>
+ <form name="personForm" method="get" action="https://www.naver.com">
+
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+        <th  width="80">이름</th>
+        <td>
+            <input type="text" name="name" id="name" placeholder="이름 입력", size="10">
+        </td>
+    </tr>
+
+    <tr>
+        <th >성별</th>
+        <td border="1" > 
+            <fieldset align="center">
+                <legend align="center">성별</legend>
+            <input type="radio" name="gender" id="gender_m" value="0" checked="checked">
+            <label for="gender_m">남자</label>
+            
+            <input type="radio" name="gender" id="gender_w"value="1">
+            <label for="gender_w">여자</label>
+            </fieldset>
+            <!-- value = 실제 넘어가는 값 -->
+
+        </td>
+    </tr>
+
+    <tr>
+        <th >색깔</th>
+        <td>
+            <select name="color" style="width: 100px;">
+                <optgroup label="색깔">
+                <option value="red">빨강</option>
+                <option value="blue">파랑</option>
+                <option value="yellow">노랑</option>
+                <option value="cyan">하늘</option>
+                <option value="magenta">보라</option>
+                </optgroup>
+
+            </select>
+        </td>
+    </tr>
+
+    <tr>
+        <th>취미</th>
+        <td>
+            <input type="checkbox" name="hobby" id="hobby_read" value="독서">
+            <label for="hobby_read">독서</label>
+            <input type="checkbox" name="hobby" id="hobby_movie" value="영화">
+            <label for="hobby_movie">영화</label>
+            <input type="checkbox" name="hobby" id="hobby_music" value="음악">
+            <label for="hobby_music">음악</label>
+            <input type="checkbox" name="hobby" id="hobby_game" value="게임">
+            <label for="hobby_game">게임</label>
+            <input type="checkbox" name="hobby" id="hobby_shopping" value="쇼핑">
+            <label for="hobby_shopping">쇼핑</label>
+                    
+        </td>
+    </tr>
+
+    <tr>
+        <th >과목</th>
+        <td>
+            <select name="subject" multiple size="4" style="width: 100px;">
+                <option value="Java" selected>Java</option>
+                <option value="Servlet">Servlet</option>
+                <option value="JSP" >JSP</option>
+                <option value="Spring" >Spring</option>
+            </select> 
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" align="center" >
+            <input type="button" value="SEND" onclick="check()">
+            <input type="reset" value="CANCEL">
+        </td>
+    </tr>
+
+</table>
+
+
+</form>
+
+
+<script type="text/javascript">
+    function check(){
+        if(document.personForm.name.value == ""){alert("이름 입력"); return;}
+
+       // 똑같은 name을 주면 배열로 인식함.
+
+       var check = document.getElementsByName("hobby");
+       var count = 0;
+
+       for(i=0;i<check.length;i++){
+        if(check[i].checked) count++;
+       }
+       if(count == 0 ) {alert("취미를 선택하세요"); return; }
+
+       document.personForm.submit();
+       
+
+
+        // = hobby라는 name을 가진 elementsdml 개수를 가져와라
+
+    }
+
+</script>
+
+</body>
+</html>
+
+
+
+<!-- 빨강이면 color red -->
+<!-- submit -> action -->
+<!-- 유효성 검사? -->

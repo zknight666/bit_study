@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+<title>Insert title here</title>
+
+
+
+</head>
+<body>
+	<form name="calcForm" method="get" action="http://localhost:8080/testServlet/CalcServlet">
+<!-- http://localhost:8080/testServlet/calc/input.html -->
+
+        <table border="1" cellpadding="5" cellspacing="0">
+	
+            <tr>
+                <th width="70">x</th>
+                <td >
+                    <input type="text" name="x" id="x">
+                </td>
+            </tr>
+            
+            	
+            <tr>
+                <th>y</th>
+                <td>
+                    <input type="text" name="y" id="y">
+                </td>
+            </tr>
+            
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="button" value="계산" onclick="javascript:check()">
+                    <input type="reset" value="취소">
+                </td>
+            
+            </tr>
+            
+            
+            
+            </table>
+
+
+
+
+    </form>
+    
+    <script type="text/javascript">
+        function check(){
+            document.calcForm.submit();
+        }
+    
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+
+
+<title> 😎😎😎😎😎😎 </title>
+
+<style type="text/css">
+
+    td{
+        color:brown
+    }
+
+    h3{
+        color: gray
+    }
+
+    #nameDiv{
+        font-size: 8pt;
+        color : red;
+        font-weight: bold;
+
+    }
+    
+    #ageDiv{
+        font-size: 6pt;
+        color : hotpink;
+        font-weight: bold;
+
+    }
+    
+</style>
+
+
+</head>
+<body>
+    <form action="https://www.naver.com" name="paraForm" method="post"> <!--method default get 방식임-->
+        <!--get 방식-->
+        <!-- https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=apple -->
+        <!-- https://search.naver.com/search.naver ? where=nexearch & 
+            sm=top_hty & 
+            fbm=0 & 
+            ie=utf8 & 
+            query=apple -->
+            <!--get 방식   = URL ? value -->
+            <!-- = 네이버 로그인-->   
+            
+            
+            
+            
+            <!-- 제목 가운데 연령제한
+                테이블 
+                이름 : 입력 상자
+                나이 : 입력 상자
+                보내기 버튼 취소 버튼
+            --> 
+            <h3>연령제한 </h3>
+            
+<table border="1" cellpadding="5" cellspacing="0">
+    <tr>
+	    <td width="70" align="center">이름</td>    
+        <td><input type="text" name="name" placeholder="이름을 입력하세요">
+            <div id="nameDiv"></div></td>   <!-- name=변수명 의미 -->
+    </tr>
+    
+    <tr>
+        <td width="70" align="center">나이</td>    
+        <td><input type="text" name="age" size="7" maxlength="3">
+            <div id="ageDiv"></div></td>
+    </tr>
+    
+    <tr>
+        <td colspan="2" align="center">
+            <input type="button" value="보내기" onclick="javascript:check()"> 
+            <!-- 보내기 버튼을 누르면 자바스크립트 check() 함수를 호출해라. -->
+            <input type="reset" value="취소"> 
+        </td>
+    </tr> 
+</table>
+
+
+
+
+</form>
+<script type="text/javascript">
+    /*
+    function check(){
+        if(document.paraForm.name.value == "") 
+        	alert("이름을 입력하세요");
+        else if(document.paraForm.age.value == "")
+        	alert("나이를 입력하세요")
+        else
+        	document.paraForm.submit();
+        
+    }
+    */
+
+    function check(){
+        document.getElementById("nameDiv").innerText = ""
+        document.getElementById("ageDiv").innerText = ""
+        if(document.paraForm.name.value == "") document.getElementById("nameDiv").innerText = "이름 입력";
+        else if(document.paraForm.age.value == "") document.getElementById("ageDiv").innerText = "나이 입력";
+        else document.paraForm.submit();
+    }
+
+
+
+</script>
+<!-- 정보 입력 받고 스크립트 진행되기 때문에 밑에서 사용 /body 바로 위에 작성-->
+</body>
+</html>
+
+
+<!-- action ~ submit  -->
