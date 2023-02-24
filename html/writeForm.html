@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style type="text/css">
+
+div{
+    color: red;
+    font-size: 8pt;
+    font-weight: bold;
+}
+
+
+</style>
+
+
+
+
+</head>
+<body>
+
+<form name="writeForm" method="post" action="">
+
+<table border="1" cellpadding="5" cellspacing="0">
+    
+    
+    <tr>
+	    <th width="70" align="center">이름</th>    
+        <td><input type="text" name="name" placeholder="이름 입력">
+        <div id="nameDiv"></div></td>   
+    </tr>
+    
+    <tr>
+        <th>아이디</th>    
+        <td><input type="text" name="id" size="30" id="id" placeholder="아이디 입력">
+            <div id="idDiv"></div></td>
+    </tr>
+
+    <tr>
+        <th>비밀번호</th>    
+        <td><input type="password" name="pwd" id="pwd"size="40">
+            <div id="pwdDiv"></div></td>
+    </tr>
+
+    <tr>
+        <th>재확인</th>    
+        <td><input type="password" id="repwd" name="repwd" size="40">
+        </td>
+    </tr>
+    
+    <tr>
+        <th >성별</th>
+        <td border="1" > 
+            <input type="radio" name="gender" id="gender_m" value="0" checked="checked">
+            <label for="gender_m">남자</label>
+            <input type="radio" name="gender" id="gender_w"value="1">
+            <label for="gender_w">여자</label>
+        </td>
+    </tr>
+
+
+    <tr>
+        <th>이메일</th>    
+        <td>
+            <input type="text" name="email1" style="width: 120px;">
+            @
+            <input type="text" name="email2" style="width: 120px;">
+            <select name="email3" style="width: 120px;" onchange="select()">
+                <option value="">직접입력</option>
+                <option value="naver.com">naver.com</option>
+                <option value="nate.com">nate.com</option>
+                <option value="gmail.com">gmail.com</option>
+                </optgroup>
+        </td>
+    </tr>
+
+
+    <tr>
+        <th>휴대폰</th>    
+        <td>
+            <select name="tel1" style="width: 70px;">
+                <option value="010">010</option>
+                <option value="011">011</option>
+                <option value="012">012</option>
+                <option value="070">070</option>
+            </select>
+            -
+            <input type="text" name="tel2" style="width: 70px;">
+            -
+            <input type="text" name="tel3" style="width: 70px;">
+        </td>
+    </tr>
+
+    <tr>
+        <th>주소</th>   
+
+        <td>
+            <input type="text" name="zipcode"size="5" readonly>
+            <input type="button" value="우편번호 검색" onclick="check()"> 
+            <br>
+            <input type="text" name="addr1" style="width: 400px;" placeholder="주소" readonly>
+            <br>
+            <input type="text" name="addr2" style="width: 400px;" placeholder="상세 주소">
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2" align="center">
+            <input type="button" value="회원가입" onclick="checkWrite()"> 
+            <!-- 보내기 버튼을 누르면 자바스크립트 check() 함수를 호출해라. -->
+            <input type="reset" value="다시 작성"> 
+        </td>
+    </tr> 
+</table>
+
+
+
+
+</form>
+
+<script type="text/javascript" src="http://localhost:8080/memberServlet/js/member.js">
+    // src="../js/member.js"   <=상대주소
+ </script>
+
+</body>
+</html>
+    <!-- http://localhost:8080/memberServlet/member/writeForm.html -->
